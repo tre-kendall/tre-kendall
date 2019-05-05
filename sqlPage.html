@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <title></title>
+  </head>
+  <body>
+    <ul>
+  	  <li><a href="index.html">Home</a></li>
+      <li><a href="jsPage.html">JS</a></li>
+  	  <li><a href="phpPage.html">PHP</a></li>
+      <li><a href="c++Page.html">C++</a></li>
+  	  <li><a class="active" href="sqlPage.html">SQL</a></li>
+    </ul>
+    <p>
+      This project was in one of my first database classes, so it's a pretty small example. I made a database that connected schools with the people inside of it (students, teachers, etc.). I didn't use any noticable coding techniques, but kept it short and easy to expand upon.
+    </p>
+    <pre class="codeBox">
+      <code>
+-- ****************** SqlDBM: MySQL ******************;
+-- ***************************************************;
+
+-- ************************************** `class`
+
+CREATE TABLE `class`
+(
+ `classID`      int NOT NULL ,
+ `className`    varchar(45) NOT NULL ,
+ `maxOccupancy` int NOT NULL ,
+PRIMARY KEY (`classID`)
+);
+
+-- ************************************** `administrators`
+
+CREATE TABLE `administrators`
+(
+ `adminID`   int NOT NULL ,
+ `payAmount` float NOT NULL ,
+ `AFName`    varchar(45) NOT NULL ,
+ `ALName`    varchar(45) NOT NULL ,
+PRIMARY KEY (`adminID`)
+);
+
+-- ************************************** `student`
+
+CREATE TABLE `student`
+(
+ `studentID` int NOT NULL ,
+ `SFName`    varchar(45) NOT NULL ,
+ `SLName`    varchar(45) NOT NULL ,
+ `classID`   int NOT NULL ,
+PRIMARY KEY (`studentID`),
+KEY `fkIdx_23` (`classID`),
+CONSTRAINT `FK_23` FOREIGN KEY `fkIdx_23` (`classID`) REFERENCES `class` (`classID`)
+);
+
+-- ************************************** `school`
+
+CREATE TABLE `school`
+(
+ `schoolName` varchar(45) NOT NULL ,
+ `adminID`    int NOT NULL ,
+ `teacherID`  int NOT NULL ,
+ `studentID`  int NOT NULL ,
+ `classID`    int NOT NULL ,
+PRIMARY KEY (`schoolName`),
+KEY `fkIdx_38` (`adminID`),
+CONSTRAINT `FK_38` FOREIGN KEY `fkIdx_38` (`adminID`) REFERENCES `administrators` (`adminID`),
+KEY `fkIdx_41` (`teacherID`),
+CONSTRAINT `FK_41` FOREIGN KEY `fkIdx_41` (`teacherID`) REFERENCES `teachers` (`teacherID`),
+KEY `fkIdx_44` (`studentID`),
+CONSTRAINT `FK_44` FOREIGN KEY `fkIdx_44` (`studentID`) REFERENCES `student` (`studentID`),
+KEY `fkIdx_47` (`classID`),
+CONSTRAINT `FK_47` FOREIGN KEY `fkIdx_47` (`classID`) REFERENCES `class` (`classID`)
+);
+
+-- ************************************** `teachers`
+
+CREATE TABLE `teachers`
+(
+ `teacherID` int NOT NULL ,
+ `payAmount` float NOT NULL ,
+ `studentID` int NOT NULL ,
+ `classID`   int NOT NULL ,
+ `TFName`    varchar(45) NOT NULL ,
+ `TLName`    varchar(45) NOT NULL ,
+PRIMARY KEY (`teacherID`),
+KEY `fkIdx_15` (`studentID`),
+CONSTRAINT `FK_15` FOREIGN KEY `fkIdx_15` (`studentID`) REFERENCES `student` (`studentID`),
+KEY `fkIdx_26` (`classID`),
+CONSTRAINT `FK_26` FOREIGN KEY `fkIdx_26` (`classID`) REFERENCES `class` (`classID`)
+);
+      </code>
+    </pre>
+  </body>
+</html>
